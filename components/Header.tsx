@@ -17,6 +17,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const siteData = useSiteData();
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
+  const logoUrl = siteData?.brand?.logo_url;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -39,12 +40,16 @@ export function Header() {
           style={{ height: scrolled ? '4rem' : '5.5rem' }}
         >
           <Link href="/">
-            <span
-              className="font-heading text-ink tracking-widest"
-              style={{ fontSize: '0.75rem', letterSpacing: '0.3em' }}
-            >
-              {gymName}
-            </span>
+            {logoUrl ? (
+              <img src={logoUrl} alt={gymName} className="h-7 w-auto object-contain" />
+            ) : (
+              <span
+                className="font-heading text-ink tracking-widest"
+                style={{ fontSize: '0.75rem', letterSpacing: '0.3em' }}
+              >
+                {gymName}
+              </span>
+            )}
           </Link>
 
           <nav className="hidden md:flex items-center gap-10">

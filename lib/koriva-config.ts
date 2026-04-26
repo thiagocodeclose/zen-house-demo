@@ -28,6 +28,9 @@ export interface BrandConfig {
   widgets_pricing?: boolean;
   widgets_lead_capture?: boolean;
   widgets_ai_chat?: boolean;
+  logo_url?: string | null;
+  instagram_url?: string | null;
+  facebook_url?: string | null;
 }
 
 export interface KorivaConfig {

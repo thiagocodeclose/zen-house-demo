@@ -8,7 +8,7 @@ import { useSiteData } from '@/components/SiteDataProvider';
 export function Footer() {
   const siteData = useSiteData();
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
-  const instagram = siteData?.gym?.instagram || studio.social.instagram;
+  const instagram = siteData?.brand?.instagram_url || siteData?.gym?.instagram || studio.social.instagram;
 
   return (
     <footer style={{ backgroundColor: 'var(--bg-fog)', borderTop: '1px solid var(--border)' }}>
