@@ -5,6 +5,7 @@ import './globals.css';
 import { getKorivaConfig, buildCssVars } from '@/lib/koriva-config';
 import { SiteDataProvider } from '@/components/SiteDataProvider';
 
+import { KorivaLivePreview } from '@/components/KorivaLivePreview';
 const libreBaskerville = Libre_Baskerville({
   subsets: ['latin'],
   weight: ['400', '700'],
@@ -52,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${libreBaskerville.variable} ${nunitoSans.variable}`} style={cssVars}>
       <body className="font-body antialiased">
+        <KorivaLivePreview />
         <SiteDataProvider config={config}>
           {children}
         </SiteDataProvider>
