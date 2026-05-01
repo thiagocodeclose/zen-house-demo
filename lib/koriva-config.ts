@@ -2,7 +2,6 @@
 // Fetches live configuration from the Koriva Admin Portal at runtime (ISR 60s).
 // Returns null gracefully — all components fall back to static site-data.ts defaults.
 
-import { cache } from 'react';
 
 export interface GymInfo {
   name: string;
@@ -49,7 +48,7 @@ const KORIVA_API = process.env.NEXT_PUBLIC_CODEGYM_URL || 'https://app.codegyms.
 const GYM_SLUG   = process.env.NEXT_PUBLIC_GYM_SLUG;
 
 /** Cached per request — only one network call per page render. */
-export const getKorivaConfig = cache(async (): Promise<KorivaConfig | null> => {
+export async function getKorivaConfig(): Promise<KorivaConfig | null> {
   if (!GYM_SLUG) return null;
   try {
     const res = await fetch(`${KORIVA_API}/api/site-config?slug=${GYM_SLUG}`, {
