@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { useSiteData } from '@/components/SiteDataProvider';
+import { useKorivaElement } from '@/hooks/useKorivaElement';
 
 const navLinks = [
   { label: 'Sessions', href: '#classes' },
@@ -13,7 +14,16 @@ const navLinks = [
 ];
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  
+  const logoText = useKorivaElement('nav_logo_text',
+    { content: 'ZEN HOUSE', visible: true },
+    { section: 'Header', label: 'Logo Text', type: 'text' });
+
+  const navCta = useKorivaElement('nav_cta',
+    { content: 'Begin Practice', visible: true },
+    { section: 'Header', label: 'Nav CTA', type: 'button' });
+
+const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const siteData = useSiteData();
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
