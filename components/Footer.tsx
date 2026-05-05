@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 
 import Link from 'next/link';
 import { Instagram } from 'lucide-react';
@@ -6,9 +7,32 @@ import { studio } from '@/lib/site-data';
 import { useSiteData } from '@/components/SiteDataProvider';
 
 export function Footer() {
+  const [integrations, setIntegrations] = useState({
+    booking_enabled: false,
+    portal_enabled: false,
+    booking_url: '#',
+    portal_url: '#',
+  });
+
   const siteData = useSiteData();
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
   const instagram = siteData?.brand?.instagram_url || siteData?.gym?.instagram || studio.social.instagram;
+
+  useEffect(() => {
+    function handleBrandIntegrations(e: Event) {
+      const d = (e as CustomEvent).detail as Record<string, unknown>;
+      const slug = (d.gym_slug as string) || '';
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.codegyms.com';
+      setIntegrations(prev => ({
+        booking_enabled: d.booking_enabled !== undefined ? !!(d.booking_enabled) : prev.booking_enabled,
+        portal_enabled: d.portal_enabled !== undefined ? !!(d.portal_enabled) : prev.portal_enabled,
+        booking_url: slug ? `${baseUrl}/schedule/${slug}` : prev.booking_url,
+        portal_url: (d.portal_url as string) || (slug ? `${baseUrl}/member-login/${slug}` : prev.portal_url),
+      }));
+    }
+    window.addEventListener('koriva:brand', handleBrandIntegrations);
+    return () => window.removeEventListener('koriva:brand', handleBrandIntegrations);
+  }, []);
 
   return (
     <footer style={{ backgroundColor: 'var(--bg-fog)', borderTop: '1px solid var(--border)' }}>
@@ -90,6 +114,32 @@ export function Footer() {
           </a>
         </div>
       </div>
+    
+      {/* Integration CTAs */}
+      {(integrations.booking_enabled || integrations.portal_enabled) && (
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="container-wide py-4 flex flex-wrap items-center justify-center gap-4">
+            {integrations.booking_enabled && (
+              <a
+                href={integrations.booking_url}
+                className="font-body text-xs tracking-widest uppercase font-semibold px-5 py-2.5 transition-all hover:opacity-80"
+                style={{ border: '1px solid var(--primary, #fff)', color: 'var(--primary, #fff)', borderRadius: '2px' }}
+              >
+                Book a Class →
+              </a>
+            )}
+            {integrations.portal_enabled && (
+              <a
+                href={integrations.portal_url}
+                className="font-body text-xs tracking-widest uppercase font-semibold px-5 py-2.5 transition-all hover:opacity-80"
+                style={{ border: '1px solid rgba(255,255,255,0.25)', color: 'rgba(255,255,255,0.55)', borderRadius: '2px' }}
+              >
+                Member Login →
+              </a>
+            )}
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
