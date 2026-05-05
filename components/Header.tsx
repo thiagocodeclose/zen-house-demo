@@ -25,6 +25,17 @@ export function Header() {
 
 const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [integrations, setIntegrations] = useState<{
+    booking_enabled: boolean;
+    portal_enabled: boolean;
+    booking_url: string;
+    portal_url: string;
+  }>({
+    booking_enabled: false,
+    portal_enabled: false,
+    booking_url: '#',
+    portal_url: '#',
+  });
   const siteData = useSiteData();
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
   const logoUrl = siteData?.brand?.logo_url;
@@ -35,6 +46,23 @@ const [scrolled, setScrolled] = useState(false);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    function handleBrand(e: Event) {
+      const d = (e as CustomEvent).detail as Record<string, unknown>;
+      if (d.booking_enabled !== undefined || d.portal_enabled !== undefined || d.gym_slug !== undefined) {
+        const slug = (d.gym_slug as string) || '';
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.codegyms.com';
+        setIntegrations({
+          booking_enabled: !!(d.booking_enabled),
+          portal_enabled: !!(d.portal_enabled),
+          booking_url: slug ? `${baseUrl}/schedule/${slug}` : '#',
+          portal_url: (d.portal_url as string) || (slug ? `${baseUrl}/member-login/${slug}` : '#'),
+        });
+      }
+    }
+    window.addEventListener('koriva:brand', handleBrand);
+    return () => window.removeEventListener('koriva:brand', handleBrand);
+  }, []);
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
@@ -76,9 +104,18 @@ const [scrolled, setScrolled] = useState(false);
           </nav>
 
           <div className="hidden md:block">
-            <Link href="#pricing" className="btn-primary">
+            <Link href="{integrations.booking_enabled ? integrations.booking_url : \'#pricing\'}" className="btn-primary">
               Book Free Session
             </Link>
+            {integrations.portal_enabled && (
+              <a
+                href={integrations.portal_url}
+                className="font-body text-xs tracking-widest uppercase transition-colors"
+                style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', padding: '0.5rem 0.75rem' }}
+              >
+                Member Login
+              </a>
+            )}
           </div>
 
           <button
@@ -105,7 +142,7 @@ const [scrolled, setScrolled] = useState(false);
                 {link.label}
               </Link>
             ))}
-            <Link href="#pricing" onClick={() => setMenuOpen(false)} className="btn-primary mt-2 text-center">
+            <Link href="{integrations.booking_enabled ? integrations.booking_url : \'#pricing\'}" onClick={() => setMenuOpen(false)} className="btn-primary mt-2 text-center">
               Book Free Session
             </Link>
           </div>

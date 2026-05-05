@@ -28,6 +28,11 @@ import { useSiteData } from '@/components/SiteDataProvider';
  *   and image fills right 75% without any overlay text
  */
 export function HeroSection() {
+
+  const [bookingIntegration, setBookingIntegration] = useState<{
+    booking_enabled: boolean;
+    booking_url: string;
+  }>({ booking_enabled: false, booking_url: '#' });
   const siteData = typeof useSiteData === 'function' ? useSiteData() : null;
 
   const eyebrow = useKorivaElement('hero_eyebrow', { content: 'ZEN HOUSE', visible: true }, { section: 'Hero', label: 'Eyebrow', type: 'eyebrow' });
@@ -46,6 +51,21 @@ export function HeroSection() {
   // Parse tagline into words for staggered reveal
   const words = tagline.content.split(/[.\s]+/).filter(Boolean);
 
+  useEffect(() => {
+    function handleBrand(e: Event) {
+      const d = (e as CustomEvent).detail as Record<string, unknown>;
+      if (d.booking_enabled !== undefined || d.gym_slug !== undefined) {
+        const slug = (d.gym_slug as string) || '';
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.codegyms.com';
+        setBookingIntegration({
+          booking_enabled: !!(d.booking_enabled),
+          booking_url: slug ? `${baseUrl}/schedule/${slug}` : '#',
+        });
+      }
+    }
+    window.addEventListener('koriva:brand', handleBrand);
+    return () => window.removeEventListener('koriva:brand', handleBrand);
+  }, []);
   return (
     <section
       style={{
@@ -107,10 +127,10 @@ export function HeroSection() {
 
         {/* Bottom: CTA + stats */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <Link href="#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 18px', backgroundColor: 'var(--blue, #4A7C59)', color: '#fff', borderRadius: '3px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
+          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 18px', backgroundColor: 'var(--blue, #4A7C59)', color: '#fff', borderRadius: '3px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
             {cta1.content}
           </Link>
-          <Link href="#classes" style={{ fontSize: '11px', color: 'var(--ink, #1C2B1E)', opacity: 0.4, textDecoration: 'underline', textUnderlineOffset: '3px', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
+          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ fontSize: '11px', color: 'var(--ink, #1C2B1E)', opacity: 0.4, textDecoration: 'underline', textUnderlineOffset: '3px', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
             {cta2.content}
           </Link>
 
