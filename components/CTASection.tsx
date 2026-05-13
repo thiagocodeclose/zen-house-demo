@@ -43,13 +43,13 @@ const [iframeHeight, setIframeHeight] = useState(320);
     >
       <div className="container-tight text-center">
         <Reveal>
-          <p className="eyebrow mb-10">Start your practice</p>
+          <p className="eyebrow mb-10" {...ctaEyebrow.editProps}>{ctaEyebrow.content || "Start your practice"}</p>
         </Reveal>
         <Reveal delay={0.1}>
           <h2
             className="font-heading text-ink leading-none mb-4"
             style={{ fontSize: 'clamp(2.5rem, 7vw, 7rem)', letterSpacing: '-0.02em' }}
-          >
+           {...ctaHeadline.editProps}>
             Begin with
             <br />
             <span className="italic" style={{ color: 'var(--blue)' }}>

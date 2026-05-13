@@ -92,7 +92,7 @@ export function HeroSection() {
       >
         {/* Top: subtle eyebrow */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.1 }}>
-          <p style={{ fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--blue, #4A7C59)', fontFamily: 'var(--font-body)', margin: 0, opacity: 0.6 }}>
+          <p style={{ fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--blue, #4A7C59)', fontFamily: 'var(--font-body)', margin: 0, opacity: 0.6 }} {...eyebrow.editProps}>
             {eyebrow.content}
           </p>
         </motion.div>
@@ -101,7 +101,7 @@ export function HeroSection() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '60px', paddingBottom: '60px', gap: '0' }}>
           {/* Large studio name */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3.2vw, 3.8rem)', lineHeight: 1.0, fontWeight: 300, color: 'var(--ink, #1C2B1E)', letterSpacing: '-0.02em', margin: '0 0 2rem 0' }}>
+            <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3.2vw, 3.8rem)', lineHeight: 1.0, fontWeight: 300, color: 'var(--ink, #1C2B1E)', letterSpacing: '-0.02em', margin: '0 0 2rem 0' }} {...hl1.editProps}>
               {hl1.content.split(' ').map((word, i) => (
                 <span key={i} style={{ display: 'block' }}>{word}</span>
               ))}
@@ -129,10 +129,10 @@ export function HeroSection() {
 
         {/* Bottom: CTA + stats */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 18px', backgroundColor: 'var(--blue, #4A7C59)', color: '#fff', borderRadius: '3px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
+          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 18px', backgroundColor: 'var(--blue, #4A7C59)', color: '#fff', borderRadius: '3px', fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: 'var(--font-body)', width: 'fit-content' }} {...cta1.editProps}>
             {cta1.content}
           </Link>
-          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ fontSize: '11px', color: 'var(--ink, #1C2B1E)', opacity: 0.4, textDecoration: 'underline', textUnderlineOffset: '3px', fontFamily: 'var(--font-body)', width: 'fit-content' }}>
+          <Link href="{bookingIntegration.booking_enabled ? bookingIntegration.booking_url : \'#classes\'}" style={{ fontSize: '11px', color: 'var(--ink, #1C2B1E)', opacity: 0.4, textDecoration: 'underline', textUnderlineOffset: '3px', fontFamily: 'var(--font-body)', width: 'fit-content' }} {...cta2.editProps}>
             {cta2.content}
           </Link>
 
@@ -176,7 +176,7 @@ export function HeroSection() {
           transition={{ duration: 0.9, delay: 0.75 }}
           style={{ position: 'absolute', bottom: '2rem', left: '2rem', right: '2rem', background: 'rgba(238,242,238,0.88)', backdropFilter: 'blur(16px)', borderRadius: '6px', padding: '1.25rem 1.5rem', maxWidth: '380px' }}
         >
-          <p style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--ink, #1C2B1E)', fontFamily: 'var(--font-body)', margin: 0, opacity: 0.7 }}>
+          <p style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--ink, #1C2B1E)', fontFamily: 'var(--font-body)', margin: 0, opacity: 0.7 }} {...subtitle.editProps}>
             {subtitle.content}
           </p>
         </motion.div>
