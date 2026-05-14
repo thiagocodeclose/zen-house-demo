@@ -12,6 +12,7 @@ import { CTASection } from '@/components/CTASection';
 import { Footer } from '@/components/Footer';
 import { GlobalWidgets } from '@/components/GlobalWidgets';
 import { JsonLd } from '@/components/JsonLd';
+import { AIChatWidget } from '@/components/AIChatWidget';
 
 export default function HomePage() {
   return (
@@ -31,6 +32,7 @@ export default function HomePage() {
         <CTASection />
       </main>
       <Footer />
+      <AIChatWidget />
     </>
   );
 }
