@@ -33,7 +33,7 @@ const [iframeHeight, setIframeHeight] = useState(320);
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  const src = `${koriva.baseUrl}/widgets/lead/${koriva.gymSlug}?embed=1&cg_primary=8BA3B0&cg_bg=F0EDE8&cg_text=2C2C2A&cg_radius=0&cg_mode=light`;
+  const src = `${koriva.baseUrl}/widgets/lead_capture/${koriva.gymSlug}?embed=1&cg_primary=8BA3B0&cg_bg=F0EDE8&cg_text=2C2C2A&cg_radius=0&cg_mode=light`;
 
   return (
     <section
