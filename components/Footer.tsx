@@ -6,6 +6,26 @@ import { Instagram } from 'lucide-react';
 import { studio } from '@/lib/site-data';
 import { useSiteData } from '@/components/SiteDataProvider';
 
+function convertOperatingHours(
+  oh: Record<string, { open: string; close: string; closed: boolean }>
+): Record<string, string> {
+  const fmt12 = (t: string) => {
+    const [h, m] = t.split(':').map(Number);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    return m === 0 ? `${h12} ${ampm}` : `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
+  };
+  const order = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  const result: Record<string, string> = {};
+  for (const key of order) {
+    if (oh[key]) {
+      result[key.charAt(0).toUpperCase() + key.slice(1)] =
+        oh[key].closed ? 'Closed' : `${fmt12(oh[key].open)} \u2013 ${fmt12(oh[key].close)}`;
+    }
+  }
+  return result;
+}
+
 export function Footer() {
   const [integrations, setIntegrations] = useState({
     booking_enabled: false,
@@ -15,6 +35,8 @@ export function Footer() {
   });
 
   const siteData = useSiteData();
+  const si = siteData?.studioInfo;
+  const liveHours = si?.operating_hours ? convertOperatingHours(si.operating_hours) : null;
   const gymName = siteData?.gym?.name?.toUpperCase() || 'ZEN HOUSE';
   const instagram = siteData?.brand?.instagram_url || siteData?.gym?.instagram || studio.social.instagram;
 
@@ -82,11 +104,14 @@ export function Footer() {
             <p className="font-body text-ink text-xs uppercase tracking-widest mb-6">Find Us</p>
             <address className="not-italic space-y-3">
               <p className="font-body text-muted text-sm leading-relaxed">
-                {studio.address.street}<br />
-                {studio.address.city}, {studio.address.state} {studio.address.zip}
+                {si?.address ? (
+                  <>{si.address}<br />{si.city}, {si.state} {si.zip}</>
+                ) : (
+                  <>{studio.address.street}<br />{studio.address.city}, {studio.address.state} {studio.address.zip}</>
+                )}
               </p>
               <div className="space-y-1 pt-2">
-                {Object.entries(studio.hours).map(([day, hours]) => (
+                {Object.entries(liveHours ?? studio.hours).map(([day, hours]) => (
                   <div key={day} className="flex justify-between gap-4 text-xs font-body">
                     <span className="text-stone-400 uppercase tracking-widest">{day}</span>
                     <span className="text-muted">{hours}</span>
