@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { koriva } from '@/lib/site-data';
+import { garrison365 } from '@/lib/site-data';
 import { useSiteData } from '@/components/SiteDataProvider';
 
 export function AIChatWidget() {
@@ -10,8 +10,8 @@ export function AIChatWidget() {
   const iframeRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [chatEnabled, setChatEnabled] = useState(false);
-  const [gymSlug, setGymSlug] = useState(koriva.gymSlug);
-  const [base, setBase] = useState(koriva.baseUrl);
+  const [gymSlug, setGymSlug] = useState(garrison365.gymSlug);
+  const [base, setBase] = useState(garrison365.baseUrl);
   const [primary, setPrimary] = useState('8B7355');
   const [bg, setBg] = useState('FAF9F6');
 
@@ -28,7 +28,7 @@ export function AIChatWidget() {
     setChatEnabled(!!(brand?.widgets_ai_chat || gym.booking_enabled));
   }, [siteData]);
 
-  // Listen to koriva:brand for live-preview updates (admin builder)
+  // Listen to garrison365:brand for live-preview updates (admin builder)
   useEffect(() => {
     function handler(e: Event) {
       const d = (e as CustomEvent).detail as Record<string, any>;
@@ -38,8 +38,8 @@ export function AIChatWidget() {
       if (d.bg_color !== undefined) setBg(d.bg_color?.replace('#', '') ?? 'FAF9F6');
       if (d.booking_enabled !== undefined) setChatEnabled(!!d.booking_enabled);
     }
-    window.addEventListener('koriva:brand', handler);
-    return () => window.removeEventListener('koriva:brand', handler);
+    window.addEventListener('garrison365:brand', handler);
+    return () => window.removeEventListener('garrison365:brand', handler);
   }, []);
 
   // Listen for open/close messages from the iframe

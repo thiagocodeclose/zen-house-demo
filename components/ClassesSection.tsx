@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { Reveal } from '@/components/Reveal';
-import { koriva } from '@/lib/site-data';
+import { garrison365 } from '@/lib/site-data';
 
 export function ClassesSection() {
   const [iframeHeight, setIframeHeight] = useState(540);
 
   useEffect(() => {
     const handler = (e: MessageEvent) => {
-      if (e.origin !== koriva.baseUrl) return;
+      if (e.origin !== garrison365.baseUrl) return;
       const d = e.data;
       if (d?.source === 'codegym-widget' && d?.type === 'widget:resize' && d?.widget === 'schedule') {
         setIframeHeight(d.payload.height + 24);
@@ -19,7 +19,7 @@ export function ClassesSection() {
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  const src = `${koriva.baseUrl}/widgets/schedule/${koriva.gymSlug}?embed=1&cg_primary=8BA3B0&cg_bg=F8F7F4&cg_text=2C2C2A&cg_radius=0&cg_mode=light`;
+  const src = `${garrison365.baseUrl}/widgets/schedule/${garrison365.gymSlug}?embed=1&cg_primary=8BA3B0&cg_bg=F8F7F4&cg_text=2C2C2A&cg_radius=0&cg_mode=light`;
 
   const offerings = [
     { num: '01', name: 'Silent Sitting', desc: 'Vipassana-inspired — 45 & 90 min' },
@@ -74,7 +74,7 @@ export function ClassesSection() {
             <iframe
               src={src}
               title="Zen House Schedule"
-              className="koriva-widget-frame"
+              className="garrison365-widget-frame"
               style={{ height: `${iframeHeight}px` }}
               allow="clipboard-write"
               loading="lazy"

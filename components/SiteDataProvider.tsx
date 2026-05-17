@@ -1,19 +1,19 @@
 // @ts-nocheck
 "use client";
 // components/SiteDataProvider.tsx
-// Combines KorivaConfig (SSR brand/canvas) with live operational data
+// Combines Garrison365Config (SSR brand/canvas) with live operational data
 // (instructors, plans, reviews, studioInfo, classSessions, classTypes, widgetConfig).
 // Preview mode: if ?preview_id= is in the URL, fetches draft config + resolves
 // live data from the previewed gym's slug.
 
 import { createContext, useContext, useEffect, useState } from "react";
-import type { KorivaConfig } from "@/lib/koriva-config";
+import type { Garrison365Config } from "@/lib/garrison365-config";
 
-const KORIVA_API =
+const GARRISON365_API =
   process.env.NEXT_PUBLIC_CODEGYM_URL || "https://app.codegyms.com";
 
-// Extend KorivaConfig with the live operational data shape
-type SiteContextValue = KorivaConfig & {
+// Extend Garrison365Config with the live operational data shape
+type SiteContextValue = Garrison365Config & {
   instructors: any[];
   plans: any[];
   reviews: { reviews: any[]; average_rating: number; total_reviews: number };
@@ -31,7 +31,7 @@ export function SiteDataProvider({
   config: serverConfig,
 }: {
   children: React.ReactNode;
-  config: KorivaConfig | null;
+  config: Garrison365Config | null;
 }) {
   const [ctx, setCtx] = useState<SiteContextValue | null>(
     serverConfig
@@ -59,22 +59,22 @@ export function SiteDataProvider({
         ? new URLSearchParams(window.location.search).get("preview_id")
         : null;
 
-    const resolveConfig: Promise<KorivaConfig | null> = previewId
+    const resolveConfig: Promise<Garrison365Config | null> = previewId
       ? fetch(
-          `${KORIVA_API}/api/site-config?preview_id=${encodeURIComponent(previewId)}`,
+          `${GARRISON365_API}/api/site-config?preview_id=${encodeURIComponent(previewId)}`,
         )
           .then((r) => (r.ok ? r.json() : null))
           .catch(() => null)
       : Promise.resolve(serverConfig);
 
     resolveConfig.then((cfg) => {
-      // Override KorivaConfig if preview resolved a new one
+      // Override Garrison365Config if preview resolved a new one
       if (previewId && cfg) {
         setCtx((prev) => ({ ...prev, ...cfg, loading: prev?.loading ?? true }));
       }
 
       const slug = cfg?.gym?.slug || defaultSlug;
-      const base = KORIVA_API;
+      const base = GARRISON365_API;
 
       Promise.all([
         fetch(`${base}/api/public/instructors?slug=${slug}`)
@@ -126,7 +126,7 @@ export function SiteDataProvider({
   );
 }
 
-/** Returns merged KorivaConfig + live data, or null if no config available. */
+/** Returns merged Garrison365Config + live data, or null if no config available. */
 export function useSiteData(): SiteContextValue | null {
   return useContext(SiteDataContext);
 }

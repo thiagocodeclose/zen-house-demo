@@ -66,7 +66,7 @@ export const testimonials = [
   },
 ] as const;
 
-export const koriva = {
+export const garrison365 = {
   gymSlug: 'zen-house',
   widgetKey: 'demo',
   baseUrl: 'https://app.codegyms.com',

@@ -2,10 +2,10 @@
 import type { Metadata } from 'next';
 import { Libre_Baskerville, Nunito_Sans } from 'next/font/google';
 import './globals.css';
-import { getKorivaConfig, buildCssVars } from '@/lib/koriva-config';
+import { getGarrison365Config, buildCssVars } from '@/lib/garrison365-config';
 import { SiteDataProvider } from '@/components/SiteDataProvider';
 
-import { KorivaLivePreview } from '@/components/KorivaLivePreview';
+import { Garrison365LivePreview } from '@/components/Garrison365LivePreview';
 const libreBaskerville = Libre_Baskerville({
   subsets: ['latin'],
   weight: ['400', '700'],
@@ -27,7 +27,7 @@ const DEFAULT_TITLE = 'Zen House | Meditation & Mindfulness Studio · Portland, 
 const DEFAULT_DESC = 'Portland\'s dedicated meditation and mindfulness studio. Daily sitting groups, Vipassana intensives, MBSR courses, and breathwork. First session free.';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const config = await getKorivaConfig();
+  const config = await getGarrison365Config();
   const title = config?.seo?.title || DEFAULT_TITLE;
   const description = config?.seo?.description || DEFAULT_DESC;
   const gymName = config?.gym?.name || 'Zen House';
@@ -48,12 +48,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const config = await getKorivaConfig();
+  const config = await getGarrison365Config();
   const cssVars = buildCssVars(config?.brand);
   return (
     <html lang="en" className={`${libreBaskerville.variable} ${nunitoSans.variable}`} style={cssVars}>
       <body className="font-body antialiased">
-        <KorivaLivePreview />
+        <Garrison365LivePreview />
         <SiteDataProvider config={config}>
           {children}
         </SiteDataProvider>

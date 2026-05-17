@@ -52,8 +52,8 @@ export function Footer() {
         portal_url: (d.portal_url as string) || (slug ? `${baseUrl}/member-login/${slug}` : prev.portal_url),
       }));
     }
-    window.addEventListener('koriva:brand', handleBrandIntegrations);
-    return () => window.removeEventListener('koriva:brand', handleBrandIntegrations);
+    window.addEventListener('garrison365:brand', handleBrandIntegrations);
+    return () => window.removeEventListener('garrison365:brand', handleBrandIntegrations);
   }, []);
 
   return (
@@ -135,7 +135,7 @@ export function Footer() {
             className="font-body text-muted hover:text-ink text-xs transition-colors"
             style={{ color: 'var(--blue)', opacity: 0.5 }}
           >
-            Powered by Koriva
+            Powered by Garrison365
           </a>
         </div>
       </div>

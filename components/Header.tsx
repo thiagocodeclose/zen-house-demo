@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { useSiteData } from '@/components/SiteDataProvider';
-import { useKorivaElement } from '@/hooks/useKorivaElement';
+import { useGarrison365Element } from '@/hooks/useGarrison365Element';
 
 const navLinks = [
   { label: 'Sessions', href: '#classes' },
@@ -15,11 +15,11 @@ const navLinks = [
 
 export function Header() {
   
-  const logoText = useKorivaElement('nav_logo_text',
+  const logoText = useGarrison365Element('nav_logo_text',
     { content: 'ZEN HOUSE', visible: true },
     { section: 'Header', label: 'Logo Text', type: 'text' });
 
-  const navCta = useKorivaElement('nav_cta',
+  const navCta = useGarrison365Element('nav_cta',
     { content: 'Begin Practice', visible: true },
     { section: 'Header', label: 'Nav CTA', type: 'button' });
 
@@ -60,8 +60,8 @@ const [scrolled, setScrolled] = useState(false);
         });
       }
     }
-    window.addEventListener('koriva:brand', handleBrand);
-    return () => window.removeEventListener('koriva:brand', handleBrand);
+    window.addEventListener('garrison365:brand', handleBrand);
+    return () => window.removeEventListener('garrison365:brand', handleBrand);
   }, []);
   return (
     <header

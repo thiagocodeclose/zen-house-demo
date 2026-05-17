@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useKorivaElement } from '@/hooks/useKorivaElement';
+import { useGarrison365Element } from '@/hooks/useGarrison365Element';
 import { useSiteData } from '@/components/SiteDataProvider';
 
 /**
@@ -37,13 +37,13 @@ export function HeroSection() {
   }>({ booking_enabled: false, booking_url: '#' });
   const siteData = typeof useSiteData === 'function' ? useSiteData() : null;
 
-  const eyebrow = useKorivaElement('hero_eyebrow', { content: 'ZEN HOUSE', visible: true }, { section: 'Hero', label: 'Eyebrow', type: 'eyebrow' });
-  const hl1 = useKorivaElement('hero_headline_1', { content: 'Zen House', visible: true }, { section: 'Hero', label: 'Headline', type: 'text' });
-  const tagline = useKorivaElement('hero_headline_2', { content: 'Still. Clear. Present.', visible: true }, { section: 'Hero', label: 'Tagline', type: 'text' });
-  const subtitle = useKorivaElement('hero_subtitle', { content: "Portland's home for meditation, breathwork and mindfulness.", visible: true }, { section: 'Hero', label: 'Description', type: 'text' });
-  const cta1 = useKorivaElement('hero_cta_primary', { content: 'Book a Session', visible: true }, { section: 'Hero', label: 'CTA Primary', type: 'button' });
-  const cta2 = useKorivaElement('hero_cta_secondary', { content: 'Explore Classes', visible: true }, { section: 'Hero', label: 'CTA Secondary', type: 'button' });
-  const heroBg = useKorivaElement('hero_bg', { content: '', mediaType: 'image', visible: true }, { section: 'Hero', label: 'Background Image', type: 'image' });
+  const eyebrow = useGarrison365Element('hero_eyebrow', { content: 'ZEN HOUSE', visible: true }, { section: 'Hero', label: 'Eyebrow', type: 'eyebrow' });
+  const hl1 = useGarrison365Element('hero_headline_1', { content: 'Zen House', visible: true }, { section: 'Hero', label: 'Headline', type: 'text' });
+  const tagline = useGarrison365Element('hero_headline_2', { content: 'Still. Clear. Present.', visible: true }, { section: 'Hero', label: 'Tagline', type: 'text' });
+  const subtitle = useGarrison365Element('hero_subtitle', { content: "Portland's home for meditation, breathwork and mindfulness.", visible: true }, { section: 'Hero', label: 'Description', type: 'text' });
+  const cta1 = useGarrison365Element('hero_cta_primary', { content: 'Book a Session', visible: true }, { section: 'Hero', label: 'CTA Primary', type: 'button' });
+  const cta2 = useGarrison365Element('hero_cta_secondary', { content: 'Explore Classes', visible: true }, { section: 'Hero', label: 'CTA Secondary', type: 'button' });
+  const heroBg = useGarrison365Element('hero_bg', { content: '', mediaType: 'image', visible: true }, { section: 'Hero', label: 'Background Image', type: 'image' });
 
   const bgImage =
     heroBg.content ||
@@ -65,8 +65,8 @@ export function HeroSection() {
         });
       }
     }
-    window.addEventListener('koriva:brand', handleBrand);
-    return () => window.removeEventListener('koriva:brand', handleBrand);
+    window.addEventListener('garrison365:brand', handleBrand);
+    return () => window.removeEventListener('garrison365:brand', handleBrand);
   }, []);
   return (
     <section
